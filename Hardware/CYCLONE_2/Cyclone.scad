@@ -4,6 +4,14 @@
 // License: CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International, http://creativecommons.org/licenses/by-sa/4.0/)
 // Designed with http://www.openscad.org/
 
+
+
+// NOTE: For a proper rendering in OpenScad it is important to change a default setting:
+// Go to: Edit --> Preferences --> Advanced
+// And increase "Turn off rendering at 2000 elements" to a larger number like 20000
+
+
+
 // Increase the resolution of default shapes
 $fa = 5; // Minimum angle for fragments [degrees]
 $fs = 0.5; // Minimum fragment size [mm]
@@ -42,7 +50,7 @@ axes_Zthreaded_rodLen	= axes_Zsmooth_rodLen-20;
 
 axes_Xsmooth_rodD	= 8.5+animatePart(4,dist=5);
 axes_Ysmooth_rodD	= 8.5+animatePart(4,dist=5);
-axes_Zsmooth_rodD	= 8.3+animatePart(4,dist=5);
+axes_Zsmooth_rodD	= 8.2+animatePart(4,dist=5);
 
 axes_Xthreaded_rodD	= 8.5+animatePart(4,dist=5);
 axes_Ythreaded_rodD	= 8.5+animatePart(4,dist=5);
@@ -53,11 +61,11 @@ axes_Zthreaded_rodD	= 8.5+animatePart(4,dist=5);
 // Y axis reference is the Y smooth rod end, BACK of RIGHT FRAME
 // X axis reference is the frontal X smooth rod end, RIGHT FRAME
 // Z axis reference is the Z threaded rod, at the height of the Z nut, and relative to the X reference
-axes_Yreference_height	= 42+animatePart(5);
-axes_Xreference_height	= 70+animatePart(6); // relative to Y reference
+axes_Yreference_height	= 40+animatePart(5);
+axes_Xreference_height	= 74+animatePart(6); // relative to Y reference
 axes_Zreference_height	= -3+animatePart(7)+animatePart(9); // relative to X reference
 
-axes_Xreference_posY	= -80-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
+axes_Xreference_posY	= -81-animatePart(8)-animatePart(9); // relative to Y reference. Moves the X axis towards the front of the machine
 axes_Zreference_posY	= 14; // relative to X reference. Positions Z rods between the Y rods
 
 axes_Y_threaded_height = 30+animatePart(5);
@@ -79,7 +87,7 @@ axes_Zcarriage_pos = axes_Zsmooth_rodLen/3+sin($t*360)*axes_Zsmooth_rodLen/4;
 Ycarriage_linearBearingSeparation = 50;
 workbed_size_X			= axes_Ysmooth_separation+50;
 workbed_size_Y			= Ycarriage_linearBearingSeparation+70;
-workbed_thickness		= 8;
+workbed_thickness		= 8+3;
 workbed_separation_from_Y_smooth_rod = 10;
 
 
@@ -95,7 +103,7 @@ draw_references = true;
 render_DXF_base = false;
 render_DXF_workbed = false;
 render_bases_outline = false; // Toggle for rendering outline DXFs
-DXF_offset = 0.5; // Needed to adjust the tolerance of the laser cutter
+DXF_offset = 0.4; // Needed to adjust the tolerance of the laser cutter
 
 // Include Cyclone parts
 include <Cyclone_X_carriage.scad>
@@ -199,31 +207,31 @@ render_2D_or_3D() {
 						
 							//Cyclone_Z_carriage();
 							
-							linearBearing_single(model=linearBearingModel, echoPart=true);
+							linearBearing_single(model="LM8UU", echoPart=true);
 							translate([axes_Zsmooth_separation,0,0])
-								linearBearing_single(model=linearBearingModel, echoPart=true);
+								linearBearing_single(model="LM8UU", echoPart=true);
 						}
 				}
 			}
 		}
-
+	
 	}
-
-
-
-
-
-
-
-
-
+	
+	
+	
+	translate([axes_Xsmooth_rodLen/2,0,0])
+		control_board();
+	
+	
+	
+	
 	// TRANSLATE REFERENCE POSITION to the FRONT RIGHT Y rod idler, Y smooth rod end
 	translate([-axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();
 	
 		Cyclone_Y_rightSmoothRodIdler();
 	}
-
+	
 	// TRANSLATE REFERENCE POSITION to the FRONT LEFT Y rod idler, Y smooth rod end
 	translate([axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();

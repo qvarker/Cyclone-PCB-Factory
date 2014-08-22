@@ -68,7 +68,7 @@ module beveledBase(size=[100,200,10], radius=10, res=15, renderPart=false, echoP
 
 include <MCAD/nuts_and_bolts.scad>
 
-module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.35, echoPart=false) {
+module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tolerance=0.45,rot=0, echoPart=false) {
 	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	translate([0,-length/2,0]) {
@@ -76,9 +76,9 @@ module hole_for_screw(size=3,length=20,nutDepth=5,nutAddedLen=0,captiveLen=0,tol
 		scale([1,(height+nutAddedLen)/height,1])
 			rotate([90,0,0])
 				hull() {
-					nutHole(size=size, tolerance=tolerance, proj=-1);
+					rotate([0,0,rot]) nutHole(size=size, tolerance=tolerance, proj=-1);
 					translate([0,captiveLen,0])
-						nutHole(size=size, tolerance=tolerance, proj=-1);
+						rotate([0,0,rot]) nutHole(size=size, tolerance=tolerance, proj=-1);
 				}
 	translate([0,length/2-height+0.01,0]) //TODO (from MCAD): proper screw cap values: instead of "height" will use METRIC_BOLT_CAP_HEIGHTS[size]+tolerance;
 		rotate([90,0,0])
@@ -116,15 +116,15 @@ module nut(size=8, chamfer=false, renderPart=false, echoPart=false) {
 }
 
 
-module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,tolerance=0.35) {
+module hole_for_nut(size=3,nutAddedLen=0,captiveLen=0,rot=0,tolerance=0.35) {
 	radius = METRIC_NUT_AC_WIDTHS[size]/2+tolerance;
 	height = METRIC_NUT_THICKNESS[size]+tolerance;
 	scale([1,(height+nutAddedLen)/height,1])
 		rotate([90,0,0])
 			hull() {
-				nutHole(size=size, tolerance=tolerance, proj=-1);
+				rotate([0,0,rot]) nutHole(size=size, tolerance=tolerance, proj=-1);
 				translate([0,captiveLen,0])
-					nutHole(size=size, tolerance=tolerance, proj=-1);
+					rotate([0,0,rot]) nutHole(size=size, tolerance=tolerance, proj=-1);
 			}
 }
 
@@ -178,15 +178,15 @@ module stepperMotor(screwHeight=10, renderPart=false, echoPart=false) {
 
 
 
-module motorGear(r=30,renderPart=false, echoPart=false) {
+module motorGear(r=30,h=10,renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color("lightgreen") cylinder(r=r,h=10)
+		color("lightgreen") cylinder(r=r,h=h)
 	if(echoPart) echo(str("BOM: Gear. Motor."));
 }
 
-module rodGear(r=30,renderPart=false, echoPart=false) {
+module rodGear(r=30,h=10,renderPart=false, echoPart=false) {
 	renderStandardPart(renderPart)
-		color("lightgreen") cylinder(r=r,h=10)
+		color("lightgreen") cylinder(r=r,h=h)
 	if(echoPart) echo(str("BOM: Gear. Rod."));
 }
 
@@ -261,4 +261,19 @@ module linearBearingHole(model="LM8UU", lateralExtension=10, pressureFitToleranc
 }
 
 
+
+module control_board() {
+	rotate([0,0,180])
+	translate([15,0]) {
+		difference() {
+			translate([-15,-12.5])
+				cube([102.5,64.5,1.6]);
+			translate([0,0,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);
+			translate([82.5,0,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);
+			translate([0,48.5,5]) rotate([90,0,0]) hole_for_screw(size=3,length=10,nutDepth=0,nutAddedLen=0,captiveLen=0);
+		}
+		%translate([-15,-12.5,1.6])
+			color("green") cube([102.5,64.5,15]);
+	}
+}
 

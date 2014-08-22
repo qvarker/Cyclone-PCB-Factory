@@ -9,6 +9,7 @@ Xmotor_sideLen = 42.20;
 
 axes_XgearSeparation = 37;
 axes_XgearRatio = 21/21; // Number of tooth (motor/rod)
+axes_XgearThickness = 10;
 
 X_frames_additional_thickness = 5;
 
@@ -16,6 +17,7 @@ module Cyclone_X_rightFrame() {
 	scale([-1,1,1]) Cyclone_X_leftFrame(isLeft=false);
 }
 
+include <MCAD/stepper.scad>
 module Cyclone_X_leftFrame(isLeft=true) {
 	
 	screwSize = 3; // M3, M4, etc (integers only)
@@ -38,6 +40,45 @@ module Cyclone_X_leftFrame(isLeft=true) {
 	bearingDepth = 3;
 	
 	corner_radius = 10;
+	
+	module Cyclone_XsubPart_gearCover() {
+		margin = 4;
+		wallThickness = 2;
+		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Nema17);
+		difference() {
+			union() {
+				rotate([0,90,0])
+					cylinder(r=axes_XgearSeparation/(1+1/axes_XgearRatio)+wallThickness+margin, h=gearWallSeparation+axes_XgearThickness+wallThickness+margin);
+				// Translate to motor position
+				rotate([motorRotatedOffset,0,0]) {
+					translate([0,axes_XgearSeparation,0])
+						rotate([-motorRotatedOffset,0,0]) {
+							rotate([0,90,0]) cylinder(r=axes_XgearSeparation/(1+axes_XgearRatio)+wallThickness+margin, h=gearWallSeparation+axes_XgearThickness+wallThickness+margin);
+						}
+				}
+			}
+			translate([-0.01,0,0])
+				union() {
+					rotate([0,90,0])
+						cylinder(r=axes_XgearSeparation/(1+1/axes_XgearRatio)+margin, h=gearWallSeparation+axes_XgearThickness+margin);
+					rotate([0,90,0]) cylinder(r=20/2-1.5, h=30);
+					// Translate to motor position
+					rotate([motorRotatedOffset,0,0]) {
+						translate([0,axes_XgearSeparation,0])
+							rotate([-motorRotatedOffset,0,0]) {
+								rotate([0,90,0]) cylinder(r=axes_XgearSeparation/(1+axes_XgearRatio)+margin, h=gearWallSeparation+axes_XgearThickness+margin);
+								rotate([0,90,0]) cylinder(r=7/2, h=30);
+								translate([0,nema_screw_separation/2,-nema_screw_separation/2])
+									rotate([0,90,0]) cylinder(r=10/2, h=10);
+								translate([0,-nema_screw_separation/2,nema_screw_separation/2])
+									rotate([0,90,0]) cylinder(r=10/2, h=10);
+								translate([0,-nema_screw_separation/2,-nema_screw_separation/2])
+									rotate([0,90,0]) cylinder(r=10/2, h=10);
+							}
+					}
+				}
+		}
+	}
 	
 	
 	difference() {
@@ -116,15 +157,16 @@ module Cyclone_X_leftFrame(isLeft=true) {
 				radialBearing(echoPart=true);
 			if(isLeft) {
 				translate([gearWallSeparation,0,0]) rotate([0,90,0])
-					rodGear(r=axes_XgearSeparation/(1+1/axes_XgearRatio), echoPart=true);
+					rodGear(r=axes_XgearSeparation/(1+1/axes_XgearRatio), h=axes_XgearThickness, echoPart=true);
 				// Translate to motor position
 				rotate([motorRotatedOffset,0,0]) {
 					translate([0,axes_XgearSeparation,0])
 						rotate([-motorRotatedOffset,0,0]) {
 							translate([-motorWallSeparation,0,0]) rotate([0,90,0]) stepperMotor(screwHeight=motorWallSeparation, echoPart=true);
-							translate([gearWallSeparation,0,0]) rotate([0,90,0]) motorGear(r=axes_XgearSeparation/(1+axes_XgearRatio), echoPart=true);
+							translate([gearWallSeparation,0,0]) rotate([0,90,0]) motorGear(r=axes_XgearSeparation/(1+axes_XgearRatio), h=axes_XgearThickness, echoPart=true);
 						}
 				}
+				Cyclone_XsubPart_gearCover();
 			}
 			translate([0,0,axes_Xsmooth_separation])
 				rotate([0,0,-90])
