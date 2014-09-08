@@ -121,152 +121,152 @@ module render_2D_or_3D() {
 }
 
 // BEGIN ASSEMBLING THE DESIGN
-render_2D_or_3D() {
-	if(draw_references) %frame();
+// render_2D_or_3D() {
+	// if(draw_references) %frame();
 
-	// Main base for the machine
-	beveledBase([base_size_X,base_size_Y,base_thickness], radius=base_corner_radius, res=base_corner_res, echoPart=true, renderPart=render_bases_outline);
-	//%color("brown") translate([0,0,-base_thickness/2]) bcube([base_size_X,base_size_Y,base_thickness], cr=base_corner_radius, cres=base_corner_res);
-
-
-	// A4 paper sheet for reference
-	standard_paperSheet_A4(echoPart=true);
+	// // Main base for the machine
+	// beveledBase([base_size_X,base_size_Y,base_thickness], radius=base_corner_radius, res=base_corner_res, echoPart=true, renderPart=render_bases_outline);
+	// //%color("brown") translate([0,0,-base_thickness/2]) bcube([base_size_X,base_size_Y,base_thickness], cr=base_corner_radius, cres=base_corner_res);
 
 
-	// Cyclone foot stands
-	translate([0,0,-base_thickness]) {
-		translate([base_size_X/2-foot_offset,base_size_Y/2-foot_offset])
-			rubberFoot(echoPart=true);
-		translate([-base_size_X/2+foot_offset,base_size_Y/2-foot_offset])
-			rubberFoot(echoPart=true);
-		translate([-base_size_X/2+foot_offset,-base_size_Y/2+foot_offset])
-			rubberFoot(echoPart=true);
-		translate([base_size_X/2-foot_offset,-base_size_Y/2+foot_offset])
-			rubberFoot(echoPart=true);
-	}
+	// // A4 paper sheet for reference
+	// standard_paperSheet_A4(echoPart=true);
+
+
+	// // Cyclone foot stands
+	// translate([0,0,-base_thickness]) {
+		// translate([base_size_X/2-foot_offset,base_size_Y/2-foot_offset])
+			// rubberFoot(echoPart=true);
+		// translate([-base_size_X/2+foot_offset,base_size_Y/2-foot_offset])
+			// rubberFoot(echoPart=true);
+		// translate([-base_size_X/2+foot_offset,-base_size_Y/2+foot_offset])
+			// rubberFoot(echoPart=true);
+		// translate([base_size_X/2-foot_offset,-base_size_Y/2+foot_offset])
+			// rubberFoot(echoPart=true);
+	// }
 
 
 
-	// TRANSLATE REFERENCE POSITION to the RIGHT frame, Y smooth rod end
-	translate([-axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
-		if(draw_references) %frame();
+	// // TRANSLATE REFERENCE POSITION to the RIGHT frame, Y smooth rod end
+	// translate([-axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
+		// if(draw_references) %frame();
 
-		// Draw right Y smooth rod
-		rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
+		// // Draw right Y smooth rod
+		// rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
 	
-		Cyclone_X_rightFrame();
-	
-	
-		// TRANSLATE REFERENCE POSITION to the LEFT frame, Y smooth rod end
-		translate([axes_Ysmooth_separation,0,0]) {
-			if(draw_references) %frame();
-		
-			// Draw right Y smooth rod
-			rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
-		
-			Cyclone_X_leftFrame();
-		}
+		// Cyclone_X_rightFrame();
 	
 	
-		// TRANSLATE REFERENCE POSITION to the right frame, X lower smooth rod end
-		translate([axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
-			if(draw_references) %frame();
+		// // TRANSLATE REFERENCE POSITION to the LEFT frame, Y smooth rod end
+		// translate([axes_Ysmooth_separation,0,0]) {
+			// if(draw_references) %frame();
 		
-			// Draw bottom X smooth rod
-			rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false, echoPart=true);
-			// Draw X threaded rod
-			translate([-(axes_Xthreaded_rodLen-axes_Xsmooth_rodLen)/2,axes_Xsmooth_separation,0])
-				rotate([0,0,-90]) standard_rod(diam=axes_Xthreaded_rodD, length=axes_Xthreaded_rodLen, threaded=true, echoPart=true);
-			// Draw top X smooth rod
-			translate([0,axes_Xsmooth_separation,axes_Xsmooth_separation])
-				rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false, echoPart=true);
+			// // Draw right Y smooth rod
+			// rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
+		
+			// Cyclone_X_leftFrame();
+		// }
+	
+	
+		// // TRANSLATE REFERENCE POSITION to the right frame, X lower smooth rod end
+		// translate([axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
+			// if(draw_references) %frame();
+		
+			// // Draw bottom X smooth rod
+			// rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false, echoPart=true);
+			// // Draw X threaded rod
+			// translate([-(axes_Xthreaded_rodLen-axes_Xsmooth_rodLen)/2,axes_Xsmooth_separation,0])
+				// rotate([0,0,-90]) standard_rod(diam=axes_Xthreaded_rodD, length=axes_Xthreaded_rodLen, threaded=true, echoPart=true);
+			// // Draw top X smooth rod
+			// translate([0,axes_Xsmooth_separation,axes_Xsmooth_separation])
+				// rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false, echoPart=true);
 		
 		
-			// TRANSLATE REFERENCE POSITION to the X carriage (centered), X lower smooth rod
-			translate([axes_Xcarriage_pos,0,0]) {
-				if(draw_references) %frame();
+			// // TRANSLATE REFERENCE POSITION to the X carriage (centered), X lower smooth rod
+			// translate([axes_Xcarriage_pos,0,0]) {
+				// if(draw_references) %frame();
 				
-				Cyclone_X_carriage();
+				// Cyclone_X_carriage();
 				
-				// TRANSLATE REFERENCE POSITION to the Z axis origin (right smooth rod)
-				translate([-axes_Zsmooth_separation/2,axes_Zreference_posY,axes_Zreference_height]) {
-					if(draw_references) %frame();
+				// // TRANSLATE REFERENCE POSITION to the Z axis origin (right smooth rod)
+				// translate([-axes_Zsmooth_separation/2,axes_Zreference_posY,axes_Zreference_height]) {
+					// if(draw_references) %frame();
 				
-					// Draw Z smooth rod (right)
-					rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false, echoPart=true);
-					// Draw Z smooth rod (left)
-					translate([axes_Zsmooth_separation,0,0])
-						rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false, echoPart=true);
-					// Draw Z threaded rod
-					translate([axes_Zsmooth_separation/2,axes_ZthreadedReference_posY,0])
-						rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD, length=axes_Zthreaded_rodLen, threaded=true, echoPart=true);
+					// // Draw Z smooth rod (right)
+					// rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false, echoPart=true);
+					// // Draw Z smooth rod (left)
+					// translate([axes_Zsmooth_separation,0,0])
+						// rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false, echoPart=true);
+					// // Draw Z threaded rod
+					// translate([axes_Zsmooth_separation/2,axes_ZthreadedReference_posY,0])
+						// rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD, length=axes_Zthreaded_rodLen, threaded=true, echoPart=true);
 					
-					// TRANSLATE REFERENCE POSITION to the Z axis reference
-						translate([0,0,axes_Zcarriage_pos]) {
-							if(draw_references) %frame();
+					// // TRANSLATE REFERENCE POSITION to the Z axis reference
+						// translate([0,0,axes_Zcarriage_pos]) {
+							// if(draw_references) %frame();
 						
-							//Cyclone_Z_carriage();
+							// //Cyclone_Z_carriage();
 							
-							linearBearing_single(model="LM8UU", echoPart=true);
-							translate([axes_Zsmooth_separation,0,0])
-								linearBearing_single(model="LM8UU", echoPart=true);
-						}
-				}
-			}
-		}
+							// linearBearing_single(model="LM8UU", echoPart=true);
+							// translate([axes_Zsmooth_separation,0,0])
+								// linearBearing_single(model="LM8UU", echoPart=true);
+						// }
+				// }
+			// }
+		// }
 	
-	}
-	
-	
-	
-	translate([axes_Xsmooth_rodLen/2,0,0])
-		control_board();
+	// }
 	
 	
 	
+	// translate([axes_Xsmooth_rodLen/2,0,0])
+		// control_board();
 	
-	// TRANSLATE REFERENCE POSITION to the FRONT RIGHT Y rod idler, Y smooth rod end
-	translate([-axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
-		if(draw_references) %frame();
 	
-		Cyclone_Y_rightSmoothRodIdler();
-	}
 	
-	// TRANSLATE REFERENCE POSITION to the FRONT LEFT Y rod idler, Y smooth rod end
-	translate([axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
-		if(draw_references) %frame();
 	
-		Cyclone_Y_leftSmoothRodIdler();
-	}
+	// // TRANSLATE REFERENCE POSITION to the FRONT RIGHT Y rod idler, Y smooth rod end
+	// translate([-axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
+		// if(draw_references) %frame();
+	
+		// Cyclone_Y_rightSmoothRodIdler();
+	// }
+	
+	// // TRANSLATE REFERENCE POSITION to the FRONT LEFT Y rod idler, Y smooth rod end
+	// translate([axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
+		// if(draw_references) %frame();
+	
+		// Cyclone_Y_leftSmoothRodIdler();
+	// }
 
 
-	// TRANSLATE REFERENCE POSITION to the FRONT Y frame, Y threaded rod end
-	translate([0,-axes_Ythreaded_rodLen/2,axes_Y_threaded_height]) {
-		if(draw_references) %frame();
+	// // TRANSLATE REFERENCE POSITION to the FRONT Y frame, Y threaded rod end
+	// translate([0,-axes_Ythreaded_rodLen/2,axes_Y_threaded_height]) {
+		// if(draw_references) %frame();
 	
-		// Draw Y threaded rod
-		standard_rod(diam=axes_Ythreaded_rodD, length=axes_Ythreaded_rodLen, threaded=true, echoPart=true);
+		// // Draw Y threaded rod
+		// standard_rod(diam=axes_Ythreaded_rodD, length=axes_Ythreaded_rodLen, threaded=true, echoPart=true);
 	
-		Cyclone_Y_frontFrame();
+		// Cyclone_Y_frontFrame();
 	
 	
-		// TRANSLATE REFERENCE POSITION to the BACK Y frame, Y threaded rod end
-		translate([0,axes_Ythreaded_rodLen,0]) {
-			if(draw_references) %frame();
+		// // TRANSLATE REFERENCE POSITION to the BACK Y frame, Y threaded rod end
+		// translate([0,axes_Ythreaded_rodLen,0]) {
+			// if(draw_references) %frame();
 		
-			Cyclone_Y_backFrame();
-		}
-	}
+			// Cyclone_Y_backFrame();
+		// }
+	// }
 
 
-	// TRANSLATE REFERENCE POSITION to the CENTERED Y carriage nut, Y threaded rod
-	translate([0,-axes_Ysmooth_rodLen/2+axes_Ycarriage_pos,axes_Y_threaded_height]) {
-		if(draw_references) %frame();
+	// // TRANSLATE REFERENCE POSITION to the CENTERED Y carriage nut, Y threaded rod
+	// translate([0,-axes_Ysmooth_rodLen/2+axes_Ycarriage_pos,axes_Y_threaded_height]) {
+		// if(draw_references) %frame();
 		
-		if(render_DXF_workbed)
-			!Cyclone_Y_carriage(); // Render carriage exclusively
-		else Cyclone_Y_carriage();
-	}
-}
+		// if(render_DXF_workbed)
+			// !Cyclone_Y_carriage(); // Render carriage exclusively
+		// else Cyclone_Y_carriage();
+	// }
+// }
 
-
+Cyclone_X_carriage();
